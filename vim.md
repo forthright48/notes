@@ -9,5 +9,8 @@
 - Prefix `"+` to use clipboard
 - `P` for pasting before cursor and `p` for pasting after
 
-
 Install `vim-gnome` so that you can copy to clipboard.
+
+# Search and Replace
+
+- Number of times a pattern matched: `:%s/PATTERN//gn` for all matches or `:%s/PATTERN//n` for just number of lines.

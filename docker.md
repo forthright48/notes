@@ -20,7 +20,7 @@ Docker will then create an image
 - `CMD [<string>]`
 
 # Docker Network
-All containers are connected to default network bridge named docker0. Using this bridge, any container can communicate using any other contrainer using their ip address. DNS resolution using container name is available for user-created-networks only.
+All containers are connected to default network bridge named docker0. Using this bridge, any container can communicate using any other container using their ip address. DNS resolution using container name is available for user-created-networks only.
 
 - Create Network: `docker network create --driver bridge <network-name>`
 - Run container on network: `docker run --network <network-name> -itd <container>`
@@ -30,6 +30,9 @@ All containers are connected to default network bridge named docker0. Using this
 1. Remove image: `docker rmi <image-name+>
 2. Remove containers: `docker container prune`
 3. Remove dangling images: `docker rmi $(docker images -f "dangling=true" -q)`
+
+# Docker Compose
+Writing `docker run` with various flags and then connecting them to networks and doing these all for multiple containers is tiresome. Docker compose makes things easy for us.
 
 # Misc
 1. See running containers: `docker ps`
