@@ -2,6 +2,14 @@
 
 - [Double Quotes vs Single Quotes](https://stackoverflow.com/questions/6697753/difference-between-single-and-double-quotes-in-bash): Single quotes do not interpolate special characters. You can't use single quote inside single quote.
 
+# Curl
+
+- **-o** flag for redirecting output
+- **-i** flag for showing hidden headers
+- **--head** flag for getting only headers
+- **--next** flag to separate multiple request
+- **--data|-d KEY=VALUE** to send post request
+
 # Environment Variables
 
 The environment is implemented as strings that represent key-value pairs. If multiple values are passed, they are typically separated by colon (:) characters
@@ -26,6 +34,7 @@ By convention, these types of variables are usually defined using all capital le
 - **Demoting Environment Variable**: `export -n VARIABLE`
 - **Remove Variable**: `unset VARIABLE`
 
+**Process environment variables**: Each process has its corresponding env values located at `/proc/PID/environ`.
 
 # File Compression
 
@@ -40,3 +49,9 @@ Extract: `extract [tar.gz,tgz,zip] ARCHIVE`
 - **Create SSH Key**: `ssh-keygen -t rsa -C EMAIL`
 - **Add machine as trusted machine on server**: Create a file `~/.ssh/authorized_keys` and add public keys to it, one in each line.
 - You can create `~/.ssh/config` to create shortcuts like `ssh SHORTCUT-NAME`.
+
+# Procfile Management Tool
+
+Create a file named `Procfile`
+
+goreman (golang)

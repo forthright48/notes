@@ -11,6 +11,9 @@
 
 Install `vim-gnome` so that you can copy to clipboard.
 
+**Undo**: `u`
+**Redo**: `ctrl + r`
+
 # Search and Replace
 
 - Number of times a pattern matched: `:%s/PATTERN//gn` for all matches or `:%s/PATTERN//n` for just number of lines.
