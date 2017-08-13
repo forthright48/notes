@@ -9,10 +9,10 @@ Inspired from the article [The Must Know Checklist For DevOps & Site Reliability
 - [x] OS info
   - [x] `less /etc/lsb-release`
   - [x] lsb stands for linux standard base
-- [ ] Environment Variables
-  - [ ] How to set/unset them?
-  - [ ] How to export permanent variables?
-  - [ ] How to view them?
+- [x] Environment Variables
+  - [x] How to set/unset them?
+  - [x] How to export permanent variables?
+  - [x] How to view them?
 - [ ] Shell Configuration file
   - [ ] .bashrc, .bash_profile
   - [ ] How to source them
