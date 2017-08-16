@@ -94,13 +94,36 @@ The **record index** of a page is an array $m$ at the end of the page. An elemen
 
 The pages of a database are usually grouped into files or segments, each of which consists of extents of one or more consecutive pages. Typically the grouping is based on the types of the records. One relation in a relational database is often placed in its own file.
 
+## Buffering and Fixing of Database Pages
 
+The database buffer or buffer pool is an array $B[1,2...N]$ of page-sized buffer frames. If there are pages of varying size in the database, there must be a buffer of its own for each different page size.
 
+The number $N$ of buffer frames is orders of magnitude smaller than the number of pages in the database. Thus normally only a fraction of the set of pages in the database can reside in the buffer at a time.
 
+**Before reading or writing the contents of a page $p$ in the database, the page must be fetched from disk into some free buffer frame $B[i]$.**
 
+A server-process thread that accesses page $p$ fixes, or pins, $p$ into the buffer for the duration of the page access. If the page is not already in the buffer, the procedure call $fix(p)$ first fetches $p$ from disk into the buffer.
 
+The buffer manager is not allowed to evict a fixed page from the buffer or to move it to another buffer frame. Thus, the buffer-frame address passed to the server process thread that called $fix$ stays valid for the duration of the fixing. After having finished processing the page, the process must unfix, or unpin, the page. A page can be evicted from the buffer only when it is no longer fixed for any process.
+
+Pages are evicted from the buffer only when the buffer is full and a buffer frame needs to be assigned to a page $p$ to be fetched from disk (by a $fix(p)$ call).  if that page is a modified page, it must first be flushed onto disk.
+
+For each buffered page, the buffer manager maintains a buffer control block in the main memory, containing:
+
+1. The page identifier of the page
+2. The location of the page in the buffer (i.e., the address of the frame)
+3. A fixcount that indicates how many process threads currently hold the page fixed
+4. A modified bit that indicates whether or not the page has been updated since it
+was last fetched from disk
+5. PAGE-LSN: the log sequence number (LSN) of the log record for the last update on the page
+6. A pointer to a latch (semaphore) that controls concurrent accesses to the page
+7. Links needed to maintain the LRU chain
+
+The addresses of the buffer control blocks are stored in a hash table indexed by the page identifiers. 
 
 # TODO
 
 - Isolation level
 - Virtual Memory
+- Paging
+- Page buffer

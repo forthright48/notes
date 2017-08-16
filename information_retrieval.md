@@ -55,12 +55,16 @@ collection frequency of t is the number of occurrences of t in the collection, c
 
 # tf-idf weighting
 
-w(t,d) = (1+log tf(t,d)) * log(N/df(t))
+w(term,doc) = (1+log tf(t,d)) * log(N/df(t))
 
 # Vector Space Model
 
-V dimensional vector space, where V is number of words.
-Query as vectors.
+Vector Space Model is an algebraic model for representing text documents as vectors of identifiers.
+
+Each document is represented as V dimensional vector, where V is the number of identifiers. All the documents together form V dimensional vector space.
+
+Even queries are represented as vector of identifiers.
+
 Euclidean distance vs angle
 Decreasing angle or increasing cosine
 cosine similarity
