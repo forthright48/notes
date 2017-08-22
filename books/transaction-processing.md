@@ -119,7 +119,67 @@ was last fetched from disk
 6. A pointer to a latch (semaphore) that controls concurrent accesses to the page
 7. Links needed to maintain the LRU chain
 
-The addresses of the buffer control blocks are stored in a hash table indexed by the page identifiers. 
+The addresses of the buffer control blocks are stored in a hash table indexed by the page identifiers.
+
+```
+Function fix(p):
+  if page p is not in the buffer then
+    if all buffer frames are occupied then
+      select a buffered unfixed page q to be evicted
+      if page q is modified then
+      flush page q to its disk address
+      end if
+        assign the buffer frame of page q to page p
+    else
+      assign some unoccupied buffer frame to page p
+    end if
+    fetch page p from its disk address to the frame
+    create a buffer control block
+    clear the modified-bit
+    initialize fixcount as zero
+  else
+    get the address of the buffer frame of p
+  end if
+  increment the fixcount
+  return the address of the frame
+```
+
+## Database States
+
+Three version of page: Disk version, Buffer version and current version (if page is buffered then current = buffer, else current = disk)
+
+For reasons of efficiency, a modified page is not taken onto the disk immediately after the update operation has been performed nor even after the transaction that updated the page has committed. A page that is used often is kept in the buffer as long as possible, according to the LRU principle. Thus, the buffer version of a page may accumulate many updates, and the disk version can lag far behind the buffer version.
+
+## Database Recover and Checkpoints
+
+Recovery: Using disk state of database and log files, we can recover the state before crash. Unfinished transactions are rolled back.
+Checkpoints: Periodic flushing of modified pages to disk. Checkpoints are used to make recovery faster.
+
+## Integrity of the Physical Database
+
+The disk version of database may not be consistent. Only the current version needs to be consistent.
+
+## Latching of Database Pages
+
+A **read latch** gives the process thread permission to read the page and prevents other processes and threads from concurrently writing the page. Multiple process threads can hold a read latch on the same page at the same time.
+
+A **write latch** gives permission to both read and write the page and prevents other process threads from reading or writing the page at the same time. The owner of a latch must unlatch the page (release the latch) after it has used the page.
+
+A latch on a buffered page is implemented using a semaphore pointed to from the buffer control block of the page.
+
+Locking is done using semaphores.
+
+During conflict (thread trying to read a page which is write-latched), the thread/process is put to sleep until conflict resolved. There is no check for deadlock, hence protocols must be maintained to avoid it.
+
+There is also a latching protocol called **latch-coupling** or **crabbing**.
+
+# Logging and Buffering
+
+The log can serve its purposes only if a protocol called **write-ahead logging** ( WAL ) is followed in database and log buffering. The WAL protocol states that an updated database page can be flushed onto disk only if all the log records up to and including the log record for the last update on the page have already been flushed onto disk.
+
+The log is an entry-sequenced, or append-only, file into which the log records of all transactions are appended in the chronological order of the updates. Log records can be deleted from the log only by truncating the log from the head, disposing of old log records that are no longer needed. The writes to the log file are buffered in a log buffer, whose contents are flushed when some transaction commits or the buffer becomes full or when the buffering policy (WAL) states that so must be done.
+
+**Log Sequence Number (LSN)**: Unique increasing identifiers for each log entry. In a multi-threaded system, it must be ensured that LSN is not duplicated. One possible method to ensure this would be to get a exclusive lock on tail of log file.
 
 # TODO
 
@@ -127,3 +187,4 @@ The addresses of the buffer control blocks are stored in a hash table indexed by
 - Virtual Memory
 - Paging
 - Page buffer
+- Semaphores
