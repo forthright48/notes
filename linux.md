@@ -55,3 +55,11 @@ Extract: `extract [tar.gz,tgz,zip] ARCHIVE`
 Create a file named `Procfile`
 
 goreman (golang)
+
+# Webmin
+
+A GUI through browser that allows us to configure our linux systems easily. For example, we can easily configure startup processes using webmin.
+
+[How to install](https://www.digitalocean.com/community/tutorials/how-to-install-webmin-on-ubuntu-16-04)
+
+You can stop/start/restart webmin from `/etc/webmin`
