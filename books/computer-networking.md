@@ -300,3 +300,61 @@ Here is how **three-way handshake** works:
 1. When client receives SYNACK, it sends an ACK packet with ACK number equal to $server\_isn+1$ and SYN bit off this time. This segment may carry payload.
 
 Either host can tear down the connection by sending a pakcet that has **FIN** flag turned on, which the partner acknowledges and send its own FIN segment back. Upon receiving a FIN segment, host deallocates its resources.
+
+What happens if a client send request to a port that has no socket running on it? The server replies with a reset segment that has RST flag turned on. Thus, when a host sends a reset segment, it is telling the source “I don’t have a socket for that segment. Please do not resend the segment.”
+
+## 3.6 Principles of Congestion Control
+
+### 3.6.1 Costs of Congestion
+
+1. Large queuing delays are experienced as the packet-arrival rate nears the link capacity.
+1. The sender must perform retransmissions in order to compensate for dropped (lost) packets due to buffer overflow.
+1. When a packet is dropped along a path, the transmission capacity that was used at each of the upstream links to forward that packet to the point at which it is dropped ends up having been wasted.
+
+## 3.7 TCP Congestion Control
+
+The TCP congestion-control mechanism operating at the sender keeps track of an additional variable, the congestion window. The congestion window, denoted cwnd, imposes a constraint on the rate at which a TCP sender can send traffic into the network. Specifically, the amount of unacknowledged data at a sender may not exceed the minimum of cwnd and rwnd, that is:
+
+$$LastByteSent – LastByteAcked \leq min(cwnd, rwnd)$$
+
+This $cwnd$ variable is increased if we detect low congestion in network, and decreases if there is high congestion. Congestion is detected using timeout and three duplicate acknowledgment.
+
+The following rules are used for deciding how sending rate should be changed:
+
+- A lost segment implies congestion, and hence, the TCP sender’s rate should be decreased when a segment is lost.
+
+- An acknowledged segment indicates that the network is delivering the sender’s segments to the receiver, and hence, the sender’s rate can be increased when an ACK arrives for a previously unacknowledged segment
+
+- **Bandwidth probing**. Given ACKs indicating a congestion-free source-to-destination path and loss events indicating a congested path, TCP’s strategy for adjusting its transmission rate is to increase its rate in response to arriving ACKs until a loss event occurs, at which point, the transmission rate is decreased. The TCP sender thus increases its transmission rate to probe for the rate that at which congestion onset begins, backs off from that rate, and then to begins probing again to see if the congestion onset rate has changed. The TCP sender’s behavior is perhaps anal- ogous to the child who requests (and gets) more and more goodies until finally he/she is finally told “No!”, backs off a bit, but then begins making requests again shortly afterwards.
+
+Using the above ideas, the following algorithm is formulated - **TCP congestion-control algorithm**.
+
+The algorithm has three parts:
+
+1. **Slow Start**
+
+    When a TCP connection begins, the value of cwnd is typically initialized to a small value of 1 MSS (Maximum Segment Size).
+
+    The bandwidth utilization is very low with this setting, in the slow-start state, the value of cwnd begins at 1 MSS and increases by 1 MSS every time a transmitted segment is first acknowledged.
+
+    This process results in a doubling of the sending rate every RTT. Thus, the TCP send rate starts slow but grows exponentially during the slow start phase.
+
+    But when should this exponential growth end?
+
+    First, if there is a loss event (i.e., congestion) indicated by a timeout, the TCP sender sets the value of cwnd to 1 and begins the slow start process anew. It also sets the value of a second state variable, **ssthresh** (shorthand for “slow start threshold”) to $cwnd/2$ —half of the value of the congestion window value when congestion was detected.
+
+    The second way in which slow start may end is directly tied to the value of ssthresh. Since ssthresh is half the value of cwnd when congestion was last detected, it might be a bit reckless to keep doubling cwnd when it reaches or surpasses the value of ssthresh. Thus, when the value of cwnd equals ssthresh, slow start ends and TCP transitions into congestion avoidance mode.
+
+    The final way in which slow start can end is if three duplicate ACKs are detected, in which case TCP performs a fast retransmit and enters the fast recovery state.
+
+1. **Congestion Avoidance**
+
+    On entry to the congestion-avoidance state, the value of cwnd is approximately half its value when congestion was last encountered—congestion could be just around the corner! Thus, rather than doubling the value of cwnd every RTT, TCP adopts a more conservative approach and increases the value of cwnd by just a single MSS every RTT. This can be achieve by increasing cwnd by $MSS/cwnd$ for each acknowledgment.
+
+    Congestion Avoidance state ends when timeout occurs, in which case we assign ssthresh to half of cwnd, cwnd to 1 and change state to slow start.
+
+    If we receive congestion report thorough duplicate acknowledgment, our response should be less drastic since packets are at least still being passed. So ssthresh is assigned to $cwnd / 2$ and $cwnd = ssthresh + 3 \times MSS$. Then we shift to fast-recovery state.
+
+1. **Fast Recovery**
+
+    In fast recovery, the value of cwnd is increased by 1 MSS for every duplicate ACK received for the missing segment that caused TCP to enter the fast-recovery state. Eventually, when an ACK arrives for the missing segment, TCP enters the congestion-avoidance state after deflating cwnd. If a timeout event occurs, fast recovery transitions to the slow-start state after performing the same actions as in slow start and congestion avoidance: The value of cwnd is set to 1 MSS, and the value of ssthresh is set to half the value of cwnd when the loss event occurred.
