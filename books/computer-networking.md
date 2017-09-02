@@ -358,3 +358,7 @@ The algorithm has three parts:
 1. **Fast Recovery**
 
     In fast recovery, the value of cwnd is increased by 1 MSS for every duplicate ACK received for the missing segment that caused TCP to enter the fast-recovery state. Eventually, when an ACK arrives for the missing segment, TCP enters the congestion-avoidance state after deflating cwnd. If a timeout event occurs, fast recovery transitions to the slow-start state after performing the same actions as in slow start and congestion avoidance: The value of cwnd is set to 1 MSS, and the value of ssthresh is set to half the value of cwnd when the loss event occurred.
+
+## 3.8 Fairness in TCP
+
+TCP congestion control tries to give equal bandwidth to each tcp connection, but UDP does not abide by any rule and can crowd out TCP. Even if UDP behaves properly, nothing is stopping an application from creating multiple TCP connections.
