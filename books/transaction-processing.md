@@ -173,13 +173,14 @@ During conflict (thread trying to read a page which is write-latched), the threa
 
 There is also a latching protocol called **latch-coupling** or **crabbing**.
 
-# Logging and Buffering
+# 3 Logging and Buffering
 
 The log can serve its purposes only if a protocol called **write-ahead logging** ( WAL ) is followed in database and log buffering. The WAL protocol states that an updated database page can be flushed onto disk only if all the log records up to and including the log record for the last update on the page have already been flushed onto disk.
 
 The log is an entry-sequenced, or append-only, file into which the log records of all transactions are appended in the chronological order of the updates. Log records can be deleted from the log only by truncating the log from the head, disposing of old log records that are no longer needed. The writes to the log file are buffered in a log buffer, whose contents are flushed when some transaction commits or the buffer becomes full or when the buffering policy (WAL) states that so must be done.
 
 **Log Sequence Number (LSN)**: Unique increasing identifiers for each log entry. In a multi-threaded system, it must be ensured that LSN is not duplicated. One possible method to ensure this would be to get a exclusive lock on tail of log file.
+
 
 # TODO
 

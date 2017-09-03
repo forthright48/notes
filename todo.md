@@ -1,0 +1,5 @@
+- Fail stop assumption
+- RAID
+- SHADOW COPIES AND SHADOW PAGING from DBMS-concept book
+- Snapshot isolation
+- Concurrency in transaction
