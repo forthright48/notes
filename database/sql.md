@@ -33,6 +33,7 @@
 - distinct
 - char_length(string s)
 - substring(sting s, int start)
+- RTrim()
 
 # Mysql Operators
 
@@ -46,3 +47,19 @@ MySQL provides two wildcard characters for using with the LIKE operator, the per
 
 % works like * in regex, 0 or more characters.
 _ works like . in regex, exactly 1 character.
+
+Although it may seem that the % wildcard matches anything, there is one exception, NULL . Not even the clause WHERE prod_name LIKE ‘%’ will match a row with the value NULL as the product name.
+
+# Using Variables
+
+To create a user-defined variable, you use the format @variable_name, where the variable_name consists of alphanumeric characters. The maximum length of the user-defined variable is 64 characters as of MySQL 5.7.5
+
+The user-defined variables are not case-sensitive. It means that the @id and @ID are the same.
+
+You can assign the user-defined variable to a certain data types such as integer, floating point, decimal, string or NULL.
+
+There are two ways to assign values to variable:
+1. `SET variable := value`
+1. `SELECT variable := value`
+
+[HR Finding Median](https://www.hackerrank.com/challenges/weather-observation-station-20)
