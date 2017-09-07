@@ -27,10 +27,10 @@ All containers are connected to default network bridge named docker0. Using this
 - Connect container to network: `docker network connect [OPTIONS] NETWORK CONTAINER`
 
 # Remove
-1. Remove image: `docker rmi <image-name+>
+1. Remove image: `docker rmi <image-name+>`
 2. Remove containers: `docker container prune`
 3. Remove dangling images: `docker rmi $(docker images -f "dangling=true" -q)`
-1. Remove Voluem: `docker volume prune` to remove unused volume.
+1. Remove Volume: `docker volume prune` to remove unused volume.
 
 # Exec
 
@@ -51,6 +51,12 @@ Writing `docker run` with various flags and then connecting them to networks and
 # Docker Swarm
 
 Docker Swarm is a **Container Orchestration System**.
+
+# CMD or Entrypoint
+
+Define these parameters so that it is possible to run docker containers without passing any execution parameters, e.g, `docker run nginx`.
+
+Passing execution parameters will override cmd command. It is a bit of hassle to override entrypoint. Better to stick with cmd.
 
 # Misc
 1. See running containers: `docker ps`

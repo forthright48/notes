@@ -256,13 +256,14 @@ An initial TimeoutInterval value of 1 second is recommended. Also, when a timeou
 
 ### 3.5.4 Reliable Data Transfer
 
-#### Single Timer for all unacknowledged packets**
+#### Single Timer for all unacknowledged packets
 
 In our earlier development of reliable data transfer techniques, it was conceptually easiest to assume that an individual timer is associated with each transmitted but not yet acknowledged segment. While this is great in theory, timer management can require considerable overhead. Thus, the recommended TCP timer management procedures use only a single retransmission timer, even if there are multiple transmitted but not yet acknowledged segments.
 
 When timeout occurs, TCP retransmits the smallest unacknowledged packet again. Timer gets restarted each time we receive acknowledgment that updates our base segment pointer.
 
-#### Doubling the timeout**
+#### Doubling the timeout
+
 When timeout occurs, we double the timeout before retransmitting. This is a form of congestion control. We stabalize the timer once we get acknowledgment.
 
 #### Fast Retransmit

@@ -1,4 +1,13 @@
-# THE SYN FLOOD ATTACK
+# Denial of Service
+
+## DNS Amplification Attack
+
+[DOS via Open DNS Server](https://www.youtube.com/watch?v=Ajw79kWMYkY)
+
+A small request is sent to Open DNS server with ip spoofing of victim. The request asks for large data from DNS server over UDP protocol. The data gets sent to victim which results in DOS. This is an example of amplification where a small request from attacker gets amplified by DNS server.  
+
+## Syn Flood Attack
+
 In TCP’s three-way handshake, a server allocates and initializes connection variables and buffers in response to a received SYN. The server then sends a SYNACK in response, and awaits an ACK segment from the client. If the client does not send an ACK to complete the third step of this 3-way handshake, eventually (often after a minute or more) the server will terminate the half-open connection and reclaim the allocated resources.
 
 This TCP connection management protocol sets the stage for a classic Denial of Service (DoS) attack known as the **SYN flood attack**. In this attack, the attacker(s) send a large number of TCP SYN segments, without completing the third handshake step. With this deluge of SYN segments, the server’s connection resources become exhausted as they are allocated (but never used!) for half-open connections; legitimate clients are then denied service. Such SYN flooding attacks were among the first documented DoS attacks. Fortunately, an effective defense known as SYN cookies are now deployed in most major operating systems.
@@ -14,3 +23,9 @@ SYN cookies work as follows:
   Recall that for a legitimate ACK, the value in the acknowledgment field is equal to the initial sequence number in the SYNACK (the cookie value in this case) plus one. The server can then run the same hash function using the source and destination IP address and port numbers in the SYNACK (which are the same as in the original SYN) and the secret number. If the result of the function plus one is the same as the acknowledgment (cookie) value in the client’s SYNACK, the server concludes that the ACK corresponds to an earlier SYN segment and is hence valid. The server then creates a fully open connection along with a socket.
 
 - On the other hand, if the client does not return an ACK segment, then the original SYN has done no harm at the server, since the server hasn’t yet allocated any resources in response to the original bogus SYN.
+
+The SYN cookie is composed of timestamp (5 bits), MSS (3 bit) and the hash of secret key + IP information (24) bit. Here timestamp is not an actual timestamp, instead a slow incrementing value (e.g, time() >> 6). Timestamp is included to make sure session has not expired.
+
+## IP Fragmented Attack (Teardrop)
+
+Fragments arrive to victim with incorrect offset, due to which victim is unable to reconstruct them. It eats up the buffer and prevents it from receiving anymore packets.

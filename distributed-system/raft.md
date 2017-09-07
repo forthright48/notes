@@ -33,7 +33,7 @@ If two nodes become candidates at the same time then a split vote can occur.
 
 Once we have a leader elected we need to replicate all changes to our system to all nodes. This is done by using the same Append Entries message that was used for heartbeats.
 
-First a client sends a change to the leader. The change is appended to the leader's log. Then the change is sent to the followers on the next heartbeat. An entry is committed once a majority of followers acknowledge it.
+First a client sends a change to the leader. The change is appended to the leader's log. Then the change is sent to the followers on the next heartbeat. An entry is committed once a majority of followers acknowledge it. Raft uses WAL protocol.
 
 Raft can even stay consistent in the face of network partitions. Cause even if there are multiple leaders, at most one leader can get majority acknowledgment for "Append Message". And during healing, old leaders will step down when they see that a new leader with higher term is present.
 
