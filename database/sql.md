@@ -63,3 +63,11 @@ There are two ways to assign values to variable:
 1. `SELECT variable := value`
 
 [HR Finding Median](https://www.hackerrank.com/challenges/weather-observation-station-20)
+
+# IF/ELSE
+
+It's like ternary operator:
+
+`IF( conditional, truthy, falsy ) AS col`
+
+[HR Problem](https://www.hackerrank.com/challenges/the-report?h_r=next-challenge&h_v=zen)

@@ -21,10 +21,15 @@ gcloud compute instances list          # Get list of VM running
 # gcloud Containers
 ```
 gcloud container clusters create hello-cluster --num-nodes=3 # Create a new cluster with 3 nodes
+```
 
+# gcloud Service
+```
+kubectl expose deployment nginx --target-port=80  --type=NodePort
 ```
 
 # gcloud Storage
 ```
-gcloud compute disks create --size 200GB mysql-disk
+gcloud compute disks create [DISK_NAME] --size 100GB --type [pd-standard|pd-ssd]
+gcloud compute disks resize [DISK_NAME] --size [DISK_SIZE]
 ```

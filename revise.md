@@ -1,6 +1,6 @@
 # Database
 
-1. How does dbms recovery works? What is the role of WAL and checkpoints? 
+1. How does dbms recovery works? What is the role of WAL and checkpoints?
 
 # Distributed System
 
@@ -9,7 +9,9 @@
 # Networking
 
 1. How SSL works?
-1. How TCP works? Describe segments structure.
+1. TCP
+    1. How TCP works? Describe segments structure.
+    1. How timeout effects TCP protocol?
 1. How UDP works?
 
 # Operating System

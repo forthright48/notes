@@ -1,0 +1,5 @@
+# Wagtail
+
+```
+wagtail start [project]
+```
