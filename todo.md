@@ -24,3 +24,6 @@
 - Fail stop assumption
 - SHADOW COPIES AND SHADOW PAGING from DBMS-concept book
 - How JWT token works
+
+# Python
+- [Pep8](https://www.python.org/dev/peps/pep-0008/)
