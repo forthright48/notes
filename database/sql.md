@@ -71,3 +71,7 @@ It's like ternary operator:
 `IF( conditional, truthy, falsy ) AS col`
 
 [HR Problem](https://www.hackerrank.com/challenges/the-report?h_r=next-challenge&h_v=zen)
+
+# Join
+
+![All possible joins](../images/join.jpg)

@@ -4,6 +4,7 @@
 | :------------- | :------------- | :------|
 | SSD      | 500 MB/s     | ?
 | Disk seek | 10 ms | -
+| Memory Access | 100 ns | - |
 
 # Read Repair
 

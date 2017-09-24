@@ -9,6 +9,7 @@
 - **--head** flag for getting only headers
 - **--next** flag to separate multiple request
 - **--data|-d KEY=VALUE** to send post request
+- **curl -H "Host: yo" [link]** to add header file
 
 # Environment Variables
 
