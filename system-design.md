@@ -1,3 +1,15 @@
+# Common DS
+
+There are multiple nodes.
+
+A leader is elected using some kind of consensus algorithm. It's called Master node.
+
+Eventually consistent is preferred in most cases. During insert/update, we use quoram confirmation.
+
+How do we resolve conflicts?
+
+During get request, depending on the consistency need, it can be either 1 or quoram. For cases like Facebook we can simply use 1. For banking, qouram read should be used.
+
 # Read/Write Speed
 
 | Item | Read | Write |

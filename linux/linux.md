@@ -64,3 +64,9 @@ A GUI through browser that allows us to configure our linux systems easily. For 
 [How to install](https://www.digitalocean.com/community/tutorials/how-to-install-webmin-on-ubuntu-16-04)
 
 You can stop/start/restart webmin from `/etc/webmin`
+
+You can view the dashboard from https://ip6-localhost:10000/
+
+# Service
+
+View All Service: `service --status-all`

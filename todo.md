@@ -10,6 +10,9 @@
 - IP multicast
 - How download resume works (range field)
 
+# OS
+- Hard link vs Soft link
+
 # Network Security
 - IP Fragmented Flood
 - Port Exhaustion
