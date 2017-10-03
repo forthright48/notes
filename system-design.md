@@ -14,9 +14,13 @@ During get request, depending on the consistency need, it can be either 1 or quo
 
 | Item | Read | Write |
 | :------------- | :------------- | :------|
-| SSD      | 500 MB/s     | ?
+| SSD      | 1 GB/s     | ?
 | Disk seek | 10 ms | -
 | Memory Access | 100 ns | - |
+| Read 1 MB sequentially from memory| 250 us |
+| Read 1 MB sequentially from SSD | 1 ms | |
+| Read 1 MB sequentially from disk | 10 ms | |
+| Read 1 MB randomly from disk | 1 s | |
 
 # Read Repair
 

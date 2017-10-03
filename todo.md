@@ -9,6 +9,7 @@
 - Snapshot isolation
 - IP multicast
 - How download resume works (range field)
+- Bloom filter
 
 # OS
 - Hard link vs Soft link

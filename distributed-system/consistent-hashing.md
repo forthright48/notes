@@ -22,7 +22,13 @@ Each node keeps a table with m rows. Each row $i$ contains the successor of $x$,
 
 # Key Search
 
-Ask a node to find out where key k is located. The node will look for the biggest value x <= k present in its finger table and send the request to that node containing x. If no such value is found, the request is simply sent to the next node. 
+Ask a node to find out where key k is located. The node will look for the biggest value x <= k present in its finger table and send the request to that node containing x. If no such value is found, the request is simply sent to the next node.
+
+# Node Failure
+
+Instead of keeping just the successor, we can keep multiple successor. This helps when one of the intermediate node fails. Keeping 2*log(n) number of successors greatly reduces the chance of failure when n is large.
+
+
 
 # Property
 
