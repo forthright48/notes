@@ -17,3 +17,11 @@ Install `vim-gnome` so that you can copy to clipboard.
 # Search and Replace
 
 - Number of times a pattern matched: `:%s/PATTERN//gn` for all matches or `:%s/PATTERN//n` for just number of lines.
+
+# vimrc
+
+`.vimrc` should be created in $HOME directory.
+
+```
+set number
+```
