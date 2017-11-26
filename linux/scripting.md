@@ -81,3 +81,26 @@ if [ $# != 1 -o \( $1 != "dev" -a $1 != "prod" \) ] ; then
 fi
 
 ```
+
+# Flag and Option Parsing
+
+[How to get arguments with flags in bash script](https://stackoverflow.com/a/21128172/2042242)
+
+`getopts` does not support long flags. Single : means its has argument and :: means argument is optional.
+
+```
+verbose='false'
+aflag=''
+bflag=''
+files=''
+
+while getopts 'abf:v' flag; do
+  case "${flag}" in
+    a) aflag='true' ;;
+    b) bflag='true' ;;
+    f) files="${OPTARG}" ;;
+    v) verbose='true' ;;
+    *) error "Unexpected option ${flag}" ;;
+  esac
+done
+```

@@ -37,6 +37,10 @@ By convention, these types of variables are usually defined using all capital le
 
 **Process environment variables**: Each process has its corresponding env values located at `/proc/PID/environ`.
 
+## Export
+
+`export VARIABLE` exposes variables to sub-process. This is useful in scripts. By exporting port numbers, I share value with docker-compose.
+
 # File Compression
 
 Zip files: `zip -r FILENAME FILE-LIST-TO-ZIP`
