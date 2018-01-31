@@ -26,6 +26,12 @@ All containers are connected to default network bridge named docker0. Using this
 - Run container on network: `docker run --network <network-name> -itd <container>`
 - Connect container to network: `docker network connect [OPTIONS] NETWORK CONTAINER`
 
+# Docker CLI commands
+
+```
+docker images # to view all images
+```
+
 # Remove
 1. Remove image: `docker rmi <image-name+>`
 2. Remove containers: `docker container prune`
@@ -44,9 +50,29 @@ Writing `docker run` with various flags and then connecting them to networks and
 
 `docker-compose` is a python script. Once installed, we need to create a `docker-compose.yml` file. `docker-compose` will work using that config file.
 
-1. `docker-compose up` creates and starts the containers and sets them up accordingly.
-1. `docker-compose down` stops and destroys all containers and networks created during the process. Volumes are not destroyed. Use `docker-compose down -v` to destroy the volumes.
-1. `docker-compose start|stop` stops or starts without destroying the containers.  
+```
+pip install --user docker-compose 
+docker-compose up     # creates and starts the containers and sets them up accordingly.
+docker-compose down   # stops and destroys all containers and networks created during the process. Volumes are not destroyed.
+docker-compose down -v # to destroy the volumes.
+docker-compose start|stop # stops or starts without destroying the containers.  
+```
+
+## env File
+
+We can declare a `.env` file with following format:
+
+```
+key=value
+```
+
+Then we can use these values in docker-compose as following:
+
+```
+...
+environment:
+  - SOMETHING=${key}
+```
 
 # Docker Swarm
 

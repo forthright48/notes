@@ -3,14 +3,16 @@
 Use the following syntax to build regex
 
 ```
-regex = /regex-expression/flag
+regexp = /regex-expression/flag
 match = regexp.exec(a_string_to_match_against)
 ```
 
-Returns captured groups in a 1-indexed array.
+Returns captured groups in a 1-indexed array (because match[0] contains the input).
+
+If no match occurs, it returns null.
 
 
 # Non Capturing Group
 `/(?:whatever)/`
 
-`(?:)` is a non-capturing group 
+`(?:)` is a non-capturing group

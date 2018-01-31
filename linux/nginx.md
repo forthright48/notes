@@ -19,6 +19,13 @@ server {
 }
 ```
 
+# Starting and Stopping Nginx
+
+```
+nginx -s stop
+nginx # start
+```
+
 # Adding SSL
 
 Adding ssl protection is very easy now. We just need to install certbot and use it.
@@ -33,9 +40,18 @@ $ sudo apt-get install python-certbot-nginx
 
 # Next run it
 sudo certbot --nginx
-```
 
 certbot will handle the rest.
+
+# Renew Certificate
+sudo apt upgrade certbot
+sudo certbot renew --dry-run
+sudo certbot renew
+
+# Check expiration dates
+certbot certificates
+```
+
 
 # Mixed content error
 
