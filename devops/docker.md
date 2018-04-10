@@ -34,9 +34,11 @@ docker images # to view all images
 
 # Remove
 1. Remove image: `docker rmi <image-name+>`
-2. Remove containers: `docker container prune`
+2. Remove stopped containers: `docker container prune`
 3. Remove dangling images: `docker rmi $(docker images -f "dangling=true" -q)`
 1. Remove Volume: `docker volume prune` to remove unused volume.
+1. Remove dangling images: `docker image prune`
+1. Remove **all** images not used by at least on container: `docker image prune -a`
 
 # Exec
 
@@ -51,7 +53,7 @@ Writing `docker run` with various flags and then connecting them to networks and
 `docker-compose` is a python script. Once installed, we need to create a `docker-compose.yml` file. `docker-compose` will work using that config file.
 
 ```
-pip install --user docker-compose 
+pip install --user docker-compose
 docker-compose up     # creates and starts the containers and sets them up accordingly.
 docker-compose down   # stops and destroys all containers and networks created during the process. Volumes are not destroyed.
 docker-compose down -v # to destroy the volumes.

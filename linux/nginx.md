@@ -22,8 +22,29 @@ server {
 # Starting and Stopping Nginx
 
 ```
-nginx -s stop
 nginx # start
+nginx -s stop
+nginx -s reload
+```
+
+# How to add a site
+
+```
+cd /etc/nginx/sites-enabled
+touch site.conf
+vim site.conf
+
+# Paste the following inside site.conf
+server {
+    listen 80; listen [::]:80;
+    server_name a.domain.com;  # <-- change this
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
 ```
 
 # Adding SSL
@@ -52,6 +73,13 @@ sudo certbot renew
 certbot certificates
 ```
 
+# How to enforce https?
+
+```
+if ($scheme != "https") {
+    return 301 https://$host$request_uri;
+} # managed by Certbot
+```
 
 # Mixed content error
 

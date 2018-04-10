@@ -77,5 +77,32 @@ const userList = await User.find({
 # Index
 
 ```
+# Path level
 field1: { type: String, unique: true, index: true },
+
+# Schema level (mandatory for compound index)
+mySchema.index({field1: 1, field2: 1}, {unique: true});
+```
+
+# Populate Selected fields
+
+```
+.populate('field1 field2', 'select1 select2');
+```
+
+# Backup
+
+## mongodump vs mongoexport
+
+https://stackoverflow.com/questions/44562993/which-one-is-the-preferred-choice-mongodump-vs-mongoexport-for-upgrading-mongodb
+
+Mongodump and Mongorestore are better because:
+
+- They run faster
+- They preserve some data formats better than mongoexport and mongoimport, because the data is not translated from BSON into JSON and back.
+
+
+```
+sudo mongodump --db newdb --out /var/backups/mongobackups/`date +"%m-%d-%y"`
+sudo mongorestore --db newdb --drop /var/backups/mongobackups/01-20-16/newdb/
 ```
