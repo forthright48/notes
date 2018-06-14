@@ -89,3 +89,9 @@ Passing execution parameters will override cmd command. It is a bit of hassle to
 # Misc
 1. See running containers: `docker ps`
 1. Exposed Port Binding: use -P flag during `run`
+
+# Docker Cleanup
+
+```
+docker system prune -a
+```
