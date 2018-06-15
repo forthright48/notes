@@ -67,18 +67,8 @@ Using the process described so far, it can be seen that paging is not fast enoug
 
 We need to resolve the two problems.
 
-# Translation Lookaside Buffer
-
-> How to avoid extra memory reference during translation?
-
-To speed address translation, we are going to add what is called a **translation-lookaside buffer**, or **TLB**.
-
-A TLB is part of the chip’s memory-management unit (MMU), and is simply a **hardware cache** of popular virtual-to-physical address translations; thus, a better name would be an address-translation cache.
-
-Upon each virtual memory reference, the hardware first checks the TLB to see if the desired translation is held therein; if so, the translation is performed (quickly) without having to consult the page table (which has all translations).
-
-
-
+# Next
+More on [Translation Lookaside Buffer](./tlb.md)
 
 # Reference
 
