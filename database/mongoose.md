@@ -82,6 +82,9 @@ field1: { type: String, unique: true, index: true },
 
 # Schema level (mandatory for compound index)
 mySchema.index({field1: 1, field2: 1}, {unique: true});
+
+# More options
+sparse: true
 ```
 
 # Populate Selected fields

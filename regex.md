@@ -14,6 +14,12 @@ Returns captured groups in a 1-indexed array (because match[0] contains the inpu
 
 If no match occurs, it returns null.
 
+## From String
+```
+var re = new RegExp("a|b", "i");
+// same as
+var re = /a|b/i;
+```
 
 # Non Capturing Group
 `/(?:whatever)/`
