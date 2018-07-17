@@ -39,6 +39,7 @@ docker images # to view all images
 1. Remove Volume: `docker volume prune` to remove unused volume.
 1. Remove dangling images: `docker image prune`
 1. Remove **all** images not used by at least on container: `docker image prune -a`
+2. Ultimate cleanup: `docker system prune -a`
 
 # Exec
 
@@ -57,7 +58,7 @@ pip install --user docker-compose
 docker-compose up     # creates and starts the containers and sets them up accordingly.
 docker-compose down   # stops and destroys all containers and networks created during the process. Volumes are not destroyed.
 docker-compose down -v # to destroy the volumes.
-docker-compose start|stop # stops or starts without destroying the containers.  
+docker-compose start|stop # stops or starts without destroying the containers.
 ```
 
 ## env File
@@ -89,9 +90,3 @@ Passing execution parameters will override cmd command. It is a bit of hassle to
 # Misc
 1. See running containers: `docker ps`
 1. Exposed Port Binding: use -P flag during `run`
-
-# Docker Cleanup
-
-```
-docker system prune -a
-```
