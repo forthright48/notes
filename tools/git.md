@@ -45,6 +45,9 @@ It's a lot easier than it looks. There are plenty of helpful comments to guide y
 
 Setting upstream allows you to view extra info during `git status`
 
+![](assets/markdown-img-paste-20180717103331600.png)
+
+You can learn if your branch is ahead or behind a particular remote branch.
 ```
 git branch --set-upstream-to origin/my_branch
 git branch -u origin/my_branch
