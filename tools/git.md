@@ -40,3 +40,12 @@ It's a lot easier than it looks. There are plenty of helpful comments to guide y
 6. Commit git commit -m "Removed submodule <name>"
 7. Delete the now untracked submodule files
 `rm -rf path_to_submodule`
+
+# Upstream
+
+Setting upstream allows you to view extra info during `git status`
+
+```
+git branch --set-upstream-to origin/my_branch
+git branch -u origin/my_branch
+```
