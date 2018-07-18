@@ -9,3 +9,6 @@
     - Private & Public IP
     - NAT
     - Port Forward
+3. [Switching](./switch.md)
+    - [Hub](./hub)
+      - Half Duplex vs Full Duplex

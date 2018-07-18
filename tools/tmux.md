@@ -29,10 +29,13 @@ tmux a #            # Attach to last session
 
 # Pane
 ```
-ctrl+b "            # Horizontal
-ctrl+b %            # Vertical
+ctrl+b "            # Split Horizontal
+ctrl+b %            # Split Vertical
 
 $resize-pane -D/U/L/R [line number]
+
+prefix + {          # Swap Pane anti-clockwise
+prefix + }          # Swap Pane clockwise
 ```
 
 # Exit
