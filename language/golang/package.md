@@ -3,6 +3,16 @@
 - A package is a directory: **package = directory**
 - A package cannot have sub-directory.
 - All files in a package must be in same directory
+- All files must start with a package declaration
+
+## Export
+
+To export a function, variable or anything, just capitalize the first letter.
+
+## Name of packages
+
+- Keep them small and short. Usually one lowercase word.
+- No underscores
 
 ## main function
 
@@ -26,3 +36,7 @@ A package can also have an init function. It is guranteed that init function wil
 First imports will be called. Next constants will be declared. After that variables will be initiated. Next comes init() and finally main() if any.
 
 Reference: [StackOverflow: When is the init() function run?](https://stackoverflow.com/questions/24790175/when-is-the-init-function-run)
+
+# Resources
+
+1. [Go Talks - Organizing Go Code](https://talks.golang.org/2014/organizeio.slide#4)
