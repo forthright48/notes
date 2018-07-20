@@ -1,5 +1,11 @@
 # Vim
 
+# vimrc
+
+`.vimrc` should be created in $HOME directory.
+
+Get vimrc from [Ultimate vimrc](https://github.com/amix/vimrc)
+
 # Cut, Copy, Paste and Select
 
 - `V` for selecting a line
@@ -17,11 +23,3 @@ Install `vim-gnome` so that you can copy to clipboard.
 # Search and Replace
 
 - Number of times a pattern matched: `:%s/PATTERN//gn` for all matches or `:%s/PATTERN//n` for just number of lines.
-
-# vimrc
-
-`.vimrc` should be created in $HOME directory.
-
-```
-set number
-```
