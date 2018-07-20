@@ -10,5 +10,5 @@
     - NAT
     - Port Forward
 3. [Switching](./switch.md)
-    - [Hub](./hub)
+    - [Hub](./hub.md)
       - Half Duplex vs Full Duplex
