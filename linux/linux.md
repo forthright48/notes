@@ -2,7 +2,7 @@
 
 - [Double Quotes vs Single Quotes](https://stackoverflow.com/questions/6697753/difference-between-single-and-double-quotes-in-bash): Single quotes do not interpolate special characters. You can't use single quote inside single quote.
 
-# Curl
+## Curl
 
 - **-o** flag for redirecting output
 - **-i** flag for showing hidden headers
@@ -11,7 +11,7 @@
 - **--data|-d KEY=VALUE** to send post request
 - **curl -H "Host: yo" [link]** to add header file
 
-# Environment Variables
+## Environment Variables
 
 The environment is implemented as strings that represent key-value pairs. If multiple values are passed, they are typically separated by colon (:) characters
 
@@ -37,11 +37,11 @@ By convention, these types of variables are usually defined using all capital le
 
 **Process environment variables**: Each process has its corresponding env values located at `/proc/PID/environ`.
 
-## Export
+### Export
 
 `export VARIABLE` exposes variables to sub-process. This is useful in scripts. By exporting port numbers, I share value with docker-compose.
 
-# File Compression
+## File Compression
 
 Zip files: `zip -r FILENAME FILE-LIST-TO-ZIP`
 
@@ -49,13 +49,13 @@ Extract: `extract [tar.gz,tgz,zip] ARCHIVE`
 
 `extract` is my own shell script.
 
-# Procfile Management Tool
+## Procfile Management Tool
 
 Create a file named `Procfile`
 
 goreman (golang)
 
-# Webmin
+## Webmin
 
 A GUI through browser that allows us to configure our linux systems easily. For example, we can easily configure startup processes using webmin.
 
@@ -65,6 +65,6 @@ You can stop/start/restart webmin from `/etc/webmin`
 
 You can view the dashboard from https://ip6-localhost:10000/
 
-# Service
+## Service
 
 View All Service: `service --status-all`
