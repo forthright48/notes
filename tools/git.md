@@ -1,5 +1,25 @@
 # Git
 
+## Three Way Merge
+
+What happens when you merge a branch? For example, you want to merge Feature_A branch with master.
+
+What git does is, it finds 3 commits: the head of Feature_A, the head of master and lowest common ancestor of Feature_A and Master. Then uses these 3 commits to make decisions for merge.
+
+But why do we need three commits? Can't we just use head of each branch to make the decision?
+
+![](assets/2018-08-02-15-55-08.png)
+
+In the picture above, is it possible to figure out which branch changed made the changes to line 1, 3 and 5? No. Hence, we have to manually decide for each line.
+
+But, if we use three commits to merge, then things get a bit easier.
+
+![](assets/2018-08-02-15-57-56.png)
+
+Now, we can easily determine which branch made changes to each line. Only for the last line we have merge conflict. For the rest, we have auto merge.
+
+And this is the reason git uses three way merging.
+
 ## Git tag
 
 ```bash

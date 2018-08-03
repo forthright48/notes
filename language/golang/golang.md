@@ -9,8 +9,8 @@
     - Array vs Slice
     - Length & Capacity
     - Init, append and loop over
+1. [Map](./map)
 1. [Interface](./interface.md)
-1. [Reflection](./reflection.md)
 
 ## Basic Questions
 
@@ -20,3 +20,7 @@
 
 1. [Profiling with pprof](./pprof.md)
     - go-torch
+1. [Go Routine](./goroutine.md)
+1. [Mutex](./mutex.md)
+1. [Reflection](./reflection.md)
+1. [Embedding in Go](./embedding.md)
