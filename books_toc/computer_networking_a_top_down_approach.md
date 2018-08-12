@@ -2,10 +2,11 @@
 
 ## Chapter 3 Transport Layer
 
-- [ ] 3.1 Introduction and Transport-Layer Services
-  - [ ] 3.1.1 Relationship Between Transport and Network Layers
-  - [ ] 3.1.2 Overview of the Transport Layer in the Internet
-- [ ] 3.2 Multiplexing and Demultiplexing
+- [x] 3.1 Introduction and Transport-Layer Services
+  - [x] 3.1.1 Relationship Between Transport and Network Layers
+  - [x] 3.1.2 Overview of the Transport Layer in the Internet
+- [x] 3.2 Multiplexing and Demultiplexing
+  - TCP creates socket with 4 tuple.
 - [ ] 3.3 Connectionless Transport: UDP
   - [ ] 3.3.1 UDP Segment Structure
   - [ ] 3.3.2 UDP Checksum
@@ -14,6 +15,7 @@
   - [ ] 3.4.2 Pipelined Reliable Data Transfer Protocols
 
 ## Chapter 4 The Network Layer
+
 - [ ] 4.1 Introduction
   - [ ] 4.1.1 Forwarding and Routing
   - [ ] 4.1.2 Network Service Models

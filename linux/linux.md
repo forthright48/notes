@@ -68,3 +68,11 @@ You can view the dashboard from https://ip6-localhost:10000/
 ## Service
 
 View All Service: `service --status-all`
+
+## Grep
+
+How to grep continuous stream of text?
+
+```bash
+tail -f file | grep --line-buffered my_pattern
+```

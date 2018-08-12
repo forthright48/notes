@@ -1,12 +1,16 @@
 # Vim
 
-# vimrc
+## vimrc
 
 `.vimrc` should be created in $HOME directory.
 
 Get vimrc from [Ultimate vimrc](https://github.com/amix/vimrc)
 
-# Cut, Copy, Paste and Select
+## Movement
+
+- `G`: Move to last line
+
+## Cut, Copy, Paste and Select
 
 - `V` for selecting a line
 - `v` for selecting characters
@@ -20,6 +24,6 @@ Install `vim-gnome` so that you can copy to clipboard.
 **Undo**: `u`
 **Redo**: `ctrl + r`
 
-# Search and Replace
+## Search and Replace
 
 - Number of times a pattern matched: `:%s/PATTERN//gn` for all matches or `:%s/PATTERN//n` for just number of lines.
