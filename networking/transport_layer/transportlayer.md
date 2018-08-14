@@ -24,13 +24,13 @@ More than one transport-layer protocol may be available to network applications.
 
 **A transport-layer protocol provides logical communication between processes running on different hosts, a network-layer protocol provides logical communication between hosts**.
 
-### Transport Layer Analogy
+## Transport Layer Analogy
 
 Consider two houses, one on the East Coast and the other on the West Coast, with each house being home to a dozen kids. The kids in the two households love to write to each other. Each letter is delivered by the traditional postal service in a separate envelope. In each of the households there is one kid—Ann in the West Coast house and Bill in the East Coast house—responsible for mail collection and mail distribution. Each week Ann visits all her brothers and sisters, collects the mail, and gives the mail to a postal-service mail carrier, who makes daily visits to the house. When letters arrive at the West Coast house, Ann also has the job of distributing the mail to her brothers and sisters. Bill has a similar job on the East Coast.
 
 In this example, the postal service provides logical communication between the two houses - the postal service moves mail from house to house, not from person to person. On the other hand, Ann and Bill provide logical communication among the cousins—Ann and Bill pick up mail from, and deliver mail to, their brothers and sisters. Note that from the kids' perspective, Ann and Bill are the mail service, even though Ann and Bill are only a part (the end-system part) of the end-to-end delivery process.
 
-### Internet's Network Layer Model
+## Internet's Network Layer Model
 
 Internet's network layer is called **IP (Internet Protocol)**. IP provides logical communication between hosts. The IP service model is a **best-effort delivery service**. This means that IP makes its "best effort" to deliver segments between communicating hosts, but it makes no guarantees.
 
@@ -40,7 +40,7 @@ Internet's network layer is called **IP (Internet Protocol)**. IP provides logic
 
 For these reasons, IP is said to be an **unreliable service**. We also mention here that every host has at least one network-layer address, a so-called IP address.
 
-### Choice of Transport Layer Model
+## Choice of Transport Layer Model
 
 We have two choices for transport layer protocol: **UDP (User Datagram Protocol)** and **TCP (Transmission Control Protocol)**.
 
@@ -74,3 +74,6 @@ From the discussion above, we know that transport-layer multiplexing requires (1
 When a client tries to connect to server, server creates a new socket (if not already created) using the 4 tuple (source IP, source port, dest IP, dest port). This means one process can open multiple socket. Hence, even though we only have around 60k ports, we can provide service to many more clients than 60k.
 
 ![](assets/2018-08-12-12-52-24.png)
+
+## Reliable Data Transfer
+
