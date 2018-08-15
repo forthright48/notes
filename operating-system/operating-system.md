@@ -1,6 +1,6 @@
 # Process
 
-# Memory
+## Memory
 
 1. [Address Translation](./address-translation.md)
     - Base and Bound Registers
@@ -20,4 +20,4 @@
     - Spatial locality
     - Temporal locality
 
-# Persistance
+## Persistance

@@ -11,7 +11,7 @@
   - [x] 3.3.1 UDP Segment Structure
   - [x] 3.3.2 UDP Checksum
 - [ ] 3.4 Principles of Reliable Data Transfer
-  - [ ] 3.4.1 Building a Reliable Data Transfer Protocol
+  - [x] 3.4.1 Building a Reliable Data Transfer Protocol
   - [ ] 3.4.2 Pipelined Reliable Data Transfer Protocols
 
 ## Chapter 4 The Network Layer

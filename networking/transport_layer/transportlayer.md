@@ -74,6 +74,3 @@ From the discussion above, we know that transport-layer multiplexing requires (1
 When a client tries to connect to server, server creates a new socket (if not already created) using the 4 tuple (source IP, source port, dest IP, dest port). This means one process can open multiple socket. Hence, even though we only have around 60k ports, we can provide service to many more clients than 60k.
 
 ![](assets/2018-08-12-12-52-24.png)
-
-## Reliable Data Transfer
-

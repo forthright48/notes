@@ -84,3 +84,17 @@ This is useful when you have 2FA enabled in some website. You can't submit 2FA f
 ```bash
 git config --global url."git@github.com:".insteadOf "https://github.com/"
 ```
+
+## Caret vs Tilde
+
+> What is the diff between HEAD~ and HEAD^ ?
+
+A commit can have two parent if it's a merge commit. ~ means first parent and ^ means second parent.
+
+So, for day to day use, I think ~ is sufficient.
+
+```bash
+git show HEAD       # Shows details of last commit.
+git show HEAD~      # Shows details of second last commit. Same as HEAD~1.
+git show HEAD~2     # Shows details of third last commit.
+```
