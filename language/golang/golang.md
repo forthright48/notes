@@ -30,3 +30,5 @@ env GOOS=linux GOARCH=amd64 go build $FILEPATH
 1. [Mutex](./mutex.md)
 1. [Reflection](./reflection.md)
 1. [Embedding in Go](./embedding.md)
+
+## Random

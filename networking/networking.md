@@ -19,7 +19,7 @@
 
 1. [Transport Layer](./transport_layer/transportlayer.md)
     - [UDP](./transport_layer/udp.md)
-    - TCP
+    - [Reliable Data Transfer](./transport_layer/reliable-data-transfer.md)
 
 ## Misc
 

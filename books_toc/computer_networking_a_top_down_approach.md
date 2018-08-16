@@ -12,7 +12,9 @@
   - [x] 3.3.2 UDP Checksum
 - [ ] 3.4 Principles of Reliable Data Transfer
   - [x] 3.4.1 Building a Reliable Data Transfer Protocol
-  - [ ] 3.4.2 Pipelined Reliable Data Transfer Protocols
+  - [x] 3.4.2 Pipelined Reliable Data Transfer Protocols
+  - [ ] Go-Back-N (GBN)
+  - [ ] Selective Repeat (SR)
 
 ## Chapter 4 The Network Layer
 
