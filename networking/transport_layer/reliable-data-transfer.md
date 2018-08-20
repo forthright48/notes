@@ -1,5 +1,13 @@
 # Reliable Data Transfer
 
+The IP layer is unreliable. What does that mean?
+
+- No gurantee of datagram delivery.
+- No gurantee of in-order datagram delivery.
+- No gurantee of integrity of datagrams.
+
+So how can we send data with reliablity over the unreliable network?
+
 We now step through a series of protocols, each one becoming more complex, arriving at a flawless, reliable data transfer protocol.
 
 ## Reliable Data Transfer over a Perfectly Reliable Channel: rdt1.0
@@ -90,3 +98,66 @@ Pipelining has the following consequences for reliable data transfer protocols:
 - The range of sequence numbers must be increased, since each in-transit packet (not counting retransmissions) must have a unique sequence number and there may be multiple, in-transit, unacknowledged packets.
 - The sender and receiver sides of the protocols may have to buffer more than one packet. Minimally, the sender will have to buffer packets that have been trans- mitted but not yet acknowledged. Buffering of correctly received packets may also be needed at the receiver.
 - The range of sequence numbers needed and the buffering requirements will depend on the manner in which a data transfer protocol responds to lost, cor- rupted, and overly delayed packets. Two basic approaches toward pipelined error recovery can be identified: **Go-Back-N** and **selective repeat**.
+
+## Go-Back-N (GBN)
+
+In a Go-Back-N (GBN) protocol, the sender is allowed to transmit multiple packets (when available) without waiting for an acknowledgment, but is constrained to have no more than some maximum allowable number, N, of unacknowledged packets in the pipeline.
+
+![](assets/2018-08-19-11-52-32.png)
+
+If we define base to be the sequence number of the oldest unacknowledged packet and nextseqnum to be the smallest unused sequence number (that is, the sequence number of the next packet to be sent), then four intervals in the range of sequence numbers can be identified.
+
+- Sequence numbers in the interval `[0,base-1]` correspond to packets that have already been transmitted and acknowledged.
+- The inter- val `[base,nextseqnum-1]` corresponds to packets that have been sent but not yet acknowledged.
+- Sequence numbers in the interval `[nextseqnum,base+N-1]` can be used for packets that can be sent immediately, should data arrive from the upper layer.
+- Finally, sequence numbers  `[>=base+N]` cannot be used until an unacknowledged packet currently in the pipeline `(specifically, the packet with sequence number base) has been acknowledged.
+
+![](assets/2018-08-19-11-53-14.png)
+
+N is often referred to as the **window size** and the GBN protocol itself as a **sliding-window protocol**.
+
+> Why do we limit number of unacknowledged packets to a value of N?
+
+
+![](assets/2018-08-19-12-03-07.png)
+
+![](assets/2018-08-19-12-01-24.png)
+
+
+The GBN sender responds to three types of event:
+
+- **Invocation from above**: If the window is not full, then application send data. Otherwise transport will be refused. It is upto the application to deal with refusal and retry at a later time.
+- **Receipt of an ACK**: Acknowledgment for a packet with sequence number n will be taken to be a **cumulative acknowledgment**, indicat- ing that all packets with a sequence number up to and including n have been correctly received at the receiver.
+- **A timeout event**: The protocol’s name, “Go-Back-N,” is derived from the sender’s behavior in the presence of lost or overly delayed packets. If a timeout occurs, the sender resends **all** packets that have been previously sent but that have not yet been acknowledged.
+
+### Disadvantages
+
+When the window size and bandwidth-delay product are both large, many packets can be in the pipeline. A single packet error can thus cause GBN to retransmit a large number of packets, many unnecessarily.
+
+## Selective Repeat (SR)
+
+For selective repeat, both sender and receiver maintains an array to mark which packets have been sent/received. Each packet has its own timer and gets selective retransmitted if it gets lost.
+
+![](assets/2018-08-19-12-45-03.png)
+
+So both sender and reciever maintains a window and note that, these windows might not be in sync. This might create a dilemma for receiever if the window is too large. How?
+
+Since the sequence number is finite, we have to use a sequence number in a ring fashion (modulo a fixed size).
+
+So, in the following two scenarios, is there any way for the receiver to differentiate between them?
+
+![](assets/2018-08-19-12-51-49.png)
+
+![](assets/2018-08-19-12-52-01.png)
+
+The 4th packet receieved by reciever in both scenario is pkt0. But which pkt0 is this? Is the the old pkt0 or new pkt0?
+
+> So obviously a large window size will result in ambiguity. So how small should the window be?
+
+The window size must be less than or equal to half the size of the sequence number space for SR protocols.
+
+## Conclusion
+
+Let’s conclude our discussion of reliable data transfer protocols by considering one remaining assumption in our underlying channel model. Recall that we have assumed that packets cannot be reordered within the channel between the sender and receiver. This is generally a reasonable assumption when the sender and receiver are connected by a single physical wire. However, when the “channel” connecting the two is a network, packet reordering can occur. One manifestation of packet reordering is that old copies of a packet with a sequence or acknowledgment number of x can appear, even though neither the sender’s nor the receiver’s window contains x. With packet reordering, the channel can be thought of as essentially buffering packets and spontaneously emitting these packets at any point in the future. Because sequence numbers may be reused, some care must be taken to guard against such duplicate packets
+
+ The approach taken in practice is to ensure that a sequence number is not reused until the sender is “sure” that any previously sent packets with sequence num- ber x are no longer in the network. This is done by assuming that a packet cannot “live” in the network for longer than some fixed maximum amount of time. A maxi- mum packet lifetime of approximately three minutes is assumed in the TCP extensions for high-speed networks.

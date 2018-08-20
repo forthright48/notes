@@ -31,4 +31,9 @@ env GOOS=linux GOARCH=amd64 go build $FILEPATH
 1. [Reflection](./reflection.md)
 1. [Embedding in Go](./embedding.md)
 
-## Random
+## Blog/Tutorials
+
+1. [Singleton Pattern in Go](http://marcio.io/2015/07/singleton-pattern-in-go/)
+    - Check-Lock-Check Pattern
+    - `sync.Once`
+    - [Double-checked locking: Clever, but broken](https://www.javaworld.com/article/2074979/java-concurrency/double-checked-locking--clever--but-broken.html)
