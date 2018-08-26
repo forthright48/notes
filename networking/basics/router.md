@@ -24,12 +24,12 @@ A home router has the following parts:
 2. Access point
 3. Modem
 4. Router
-    5. DHCP
-    6. Address translation
-    7. Port Forward
-    8. Firewall
-    9. DNS
-    10. Web interface
+5. DHCP
+6. Address translation
+7. Port Forward
+8. Firewall
+9. DNS
+10. Web interface
 
 From the picture we can see, internal computers can communicate through switch alone. No need to go through router. Same for wifi communication: access point to switch.
 

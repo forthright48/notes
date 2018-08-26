@@ -38,6 +38,8 @@ prefix + {          # Swap Pane anti-clockwise
 prefix + }          # Swap Pane clockwise
 ```
 
+prefix + space      # Changes to next layout
+
 # Exit
 ```
 exit

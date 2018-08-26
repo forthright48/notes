@@ -31,9 +31,24 @@ env GOOS=linux GOARCH=amd64 go build $FILEPATH
 1. [Reflection](./reflection.md)
 1. [Embedding in Go](./embedding.md)
 
+## Testing
+
+- Fail vs Errorf vs Fatalf
+- table of tests: slice of struct
+  - Add name to tests
+  - Sub Tests
+- http handler test
+  - http.NewRecorder(); rec.Result()
+  - defer res.Body.Close()
+  - ioutil.ReadAll(res.body())
+
 ## Blog/Tutorials
 
 1. [Singleton Pattern in Go](http://marcio.io/2015/07/singleton-pattern-in-go/)
     - Check-Lock-Check Pattern
     - `sync.Once`
     - [Double-checked locking: Clever, but broken](https://www.javaworld.com/article/2074979/java-concurrency/double-checked-locking--clever--but-broken.html)
+2. Just For Func #1: A Code Review
+    1. Do not capitalize error codes.
+    2. resp.Status vs resp.StatusCode.
+    3. Close channels to avoid goroutine leak.

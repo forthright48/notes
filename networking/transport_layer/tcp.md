@@ -107,3 +107,136 @@ This modification provides a limited form of congestion control.
 Thus it is a hybrid.
 
 ## Flow Control
+
+- Recall that the hosts on each side of a TCP connection set aside a receive buffer for the connection. 
+- When the TCP connection receives bytes that are correct and in sequence, it places the data in the receive buffer.
+- The associated application process will read data from this buffer, but not necessarily at the instant the data arrives.
+- If the application is rela- tively slow at reading the data, the sender can very easily overflow the connection’s receive buffer by sending too much data too quickly.
+
+### Flow Control Service
+
+- TCP provides a **flow-control service** to its applications to eliminate the possibility of the sender overflowing the receiver’s buffer.
+- Flow control is thus a speed-matching service—matching the rate at which the sender is sending against the rate at which the receiving application is reading.
+- From here on, we assume in order segment arrival for simplicity.
+- TCP provides flow control by having the sender maintain a variable called the **receive window**.
+- Because TCP is full-duplex, the sender at each side of the connection maintains a distinct receive window.
+  
+![](assets/2018-08-20-20-19-39.png)
+
+- Because TCP is not permitted to overflow the allocated buffer, we must have $LastByteRcvd – LastByteRead \leq􏰄 RcvBuffer$
+- The receive window, denoted rwnd is set to the amount of spare room in the buffer: $rwnd = RcvBuffer – [LastByteRcvd – LastByteRead]$
+- Because the spare room changes with time, rwnd is dynamic.
+- How does the connection use the variable rwnd to provide the flow-control service? Host B tells Host A how much spare room it has in the connection buffer by placing its current value of rwnd in the receive window field of every segment it sends to A.
+  - Initially, Host B sets rwnd = RcvBuffer.
+- Host A in turn keeps track of two variables, LastByteSent and Last- ByteAcked, which have obvious meanings. Note that the difference between these two variables, LastByteSent – LastByteAcked, is the amount of unac- knowledged data that A has sent into the connection. By keeping the amount of unacknowledged data less than the value of rwnd, Host A is assured that it is not overflowing the receive buffer at Host B.
+
+There is one minor technical problem with this scheme.
+
+- Suppose Host B’s receive buffer becomes full so that rwnd = 0.
+- After advertising rwnd = 0 to Host A, also suppose that B has nothing to send to A.
+- As the application process at B empties the buffer, TCP does not send new seg- ments with new rwnd values to Host A; indeed, TCP sends a segment to Host A only if it has data to send or if it has an acknowledgment to send.
+- Therefore, Host A is never informed that some space has opened up in Host B’s receive buffer—Host A is blocked and can transmit no more data!
+
+To solve this problem, the TCP specification requires Host A to continue to send segments with one data byte when B’s receive window is zero. These segments will be acknowledged by the receiver. Eventually the buffer will begin to empty and the acknowledgments will contain a nonzero rwnd value.
+
+## TCP Connection Management
+
+In this section we discuss how a TCP connection is established and torn down.
+
+The client appli- cation process first informs the client TCP that it wants to establish a connection to a process in the server. The TCP in the client then proceeds to establish a TCP con- nection with the TCP in the server in the following manner:
+
+1. The client-side TCP first sends a special TCP segment to the server-side TCP. This special segment contains no application-layer data. But one of the flag bits in the segment’s header, the SYN bit, is set to 1.
+    - For this reason, this special segment is referred to as a SYN segment.
+    - In addition, the client randomly chooses an initial sequence number (client_isn) and puts this number in the sequence number field of the initial TCP SYN segment.
+2. Once the IP datagram containing the TCP SYN segment arrives at the server host (assuming it does arrive!), the server extracts the TCP SYN segment from the datagram.
+    - Then it allocates the TCP buffers and variables to the connection.
+    - Sends a connection-granted segment to the client TCP.
+    - his connection-granted segment also contains no application- layer data. However, it does contain three important pieces of information in the segment header.
+      - First, the SYN bit is set to 1. 
+      - Second, the acknowledgment field of the TCP segment header is set to client_isn+1. 
+      - Finally, the server chooses its own initial sequence number (server_isn) and puts this value in the sequence number field of the TCP segment header.
+    - The connection- granted segment is referred to as a SYNACK segment.
+1. Upon receiving the SYNACK segment, the client also allocates buffers and variables to the connection.
+    - The client host then sends the server yet another segment; this last segment acknowledges the server’s connection-granted seg- ment (the client does so by putting the value server_isn+1 in the acknowl- edgment field of the TCP segment header).
+    - The SYN bit is set to zero, since the connection is established.
+    - This third stage of the three-way handshake may carry client-to-server data in the segment payload.
+
+![](assets/2018-08-20-20-35-29.png)
+
+### Ending Connection
+
+- Either of the two processes participating in a TCP connection can end the con- nection.
+- When a connection ends, the “resources” (that is, the buffers and variables) in the hosts are deallocated.
+- Client sends a TCP segment with a flag bit in the segment’s header, the FIN bit, set to 1.
+- When the server receives this segment, it sends the client an acknowledgment segment in return.
+- The server then sends its own shutdown segment, which has the FIN bit set to 1.
+- Finally, the client acknowledges the server’s shutdown segment.
+- At this point, all the resources in the two hosts are now deallocated.
+
+![](assets/2018-08-20-20-38-34.png)
+
+![](assets/2018-08-20-20-39-22.png)
+
+![](assets/2018-08-20-20-39-32.png)
+
+### When Host is not Ready
+
+> What happens when a host receives a TCP segment whose port numbers or source IP address do not match with any of the ongoing sockets in the host?
+
+Then the host will send a special reset seg- ment to the source. This TCP segment has the RST flag bit set to 1.
+
+Thus, when a host sends a reset segment, it is telling the source “I don’t have a socket for that segment. Please do not resend the segment.”
+
+## Principles of Congestion Control
+
+### Costs of Congestion
+
+- Large queueing delays are experienced as the packet arrival rate nears the link capacity.
+- Unneeded retransmissions by the sender in the face of large delays may cause a router to use its link bandwidth to forward unneeded copies of a packet.
+- When a packet is dropped along a path, the transmission capacity that was used at each of the upstream links to forward that packet to the point at which it is dropped ends up having been wasted.
+
+## TCP Congestion Control
+
+- TCP must use end-to-end congestion control rather than net- work-assisted congestion control, since the IP layer provides no explicit feedback to the end systems regarding network congestion.
+- The TCP congestion-control mechanism operating at the sender keeps track of an variable, the **congestion window**.
+- Specifically, the amount of unacknowledged data at a sender may not exceed the minimum of cwnd and rwnd, that is: $LastByteSent – LastByteAcked \leq 􏰃 min\{cwnd, rwnd\}$
+- In a perfect connec- tion for which loss and packet transmission delays are negligible, at the beginning of every RTT, the constraint permits the sender to send cwnd bytes of data into the connection; at the end of the RTT the sender receives acknowledg- ments for the data. Thus the sender’s send rate is roughly cwnd/RTT bytes/sec. By adjusting the value of cwnd, the sender can therefore adjust the rate at which it sends data into its connection.
+- Let us define a “loss event” at a TCP sender as the occurrence of either a timeout or the receipt of three duplicate ACKs from the receiver.
+- If acknowledgments arrive at a relatively slow rate then the congestion window will be increased at a relatively slow rate. On the other hand, if acknowledgments arrive at a high rate, then the congestion window will be increased more quickly.
+  - Because TCP uses acknowledgments to trigger (or clock) its increase in congestion window size, TCP is said to be self-clocking.
+
+> How should a TCP sender determine the rate at which it should send?
+
+- If TCP senders collectively send too fast, they can congest the network, leading to congestion collapse.
+- If TCP senders are too cautious and send too slowly, they could under utilize the bandwidth in the network
+
+TCP answers these questions using the following guiding principles:
+
+- A lost segment implies congestion, and hence, the TCP sender’s rate should be decreased when a segment is lost.
+- An acknowledged segment indicates that the network is delivering the sender’s segments to the receiver, and hence, the sender’s rate can be increased when an ACK arrives for a previously unacknowledged segment.
+- Bandwidth probing:  The TCP sender’s behavior is perhaps anal- ogous to the child who requests (and gets) more and more goodies until finally he/she is finally told “No!”, backs off a bit, but then begins making requests again shortly afterwards.
+
+### TCP Congestion Control Algorithm
+
+- Slow Start
+  - When a TCP connection begins, the value of cwnd is typically initialized to a small value of 1 MSS.
+  - Since the available bandwidth to the TCP sender may be much larger than MSS/RTT, the TCP sender would like to find the amount of available bandwidth quickly.
+  - Thus, in the slow-start state, the value of cwnd begins at 1 MSS and increases by 1 MSS every time a transmitted segment is first acknowledged.
+  - This process results in a doubling of the sending rate every RTT. Thus, the TCP send rate starts slow but grows exponentially during the slow start phase.
+  - But when should this exponential growth end?
+    - First, if there is a loss event (i.e., congestion) indicated by a timeout, the TCP sender sets the value of cwnd to 1 and begins the slow start process anew. It also sets the value of a second state variable, ssthresh (shorthand for “slow start threshold”) to cwnd/2—half of the value of the con- gestion window value when congestion was detected.
+    - Since ssthresh is half the value of cwnd when congestion was last detected, it might be a bit reckless to keep doubling cwnd when it reaches or surpasses the value of ssthresh. Thus, when the value of cwnd equals ssthresh, slow start ends and TCP transitions into congestion avoidance mode.
+    - The final way in which slow start can end is if three duplicate ACKs are detected, in which case TCP performs a fast retransmit and enters the fast recovery state.
+- Congestion Avoidance
+  - On entry to the congestion-avoidance state, the value of cwnd is approximately half its value when congestion was last encountered—congestion could be just around the corner!
+  - Thus, rather than doubling the value of cwnd every RTT, TCP adopts a more conservative approach and increases the value of cwnd by just a single MSS every RTT.
+  - How? TCP knows how many segments it is sending per RTT. Let it be x. For each acknowledgement it gets, it increases cwnd by MSS/x bytes.
+  - Recall, however, that a loss event also can be triggered by a triple dupli- cate ACK event. In this case, the network is continuing to deliver segments from sender to receiver (as indicated by the receipt of duplicate ACKs). So TCP’s behav- ior to this type of loss event should be less drastic than with a timeout-indicated loss: TCP halves the value of cwnd (adding in 3 MSS for good measure to account for the triple duplicate ACKs received) and records the value of ssthresh to be half the value of cwnd when the triple duplicate ACKs were received. The fast-recovery state is then entered.
+- Fast Recovery
+  - In fast recovery, the value of cwnd is increased by 1 MSS for every duplicate ACK received for the missing segment that caused TCP to enter the fast-recovery state.
+  - Eventually, when an ACK arrives for the missing segment, TCP enters the congestion-avoidance state after deflating cwnd.
+  - If a timeout event occurs, fast recovery transitions to the slow-start state after performing the same actions as in slow start and congestion avoidance: The value of cwnd is set to 1 MSS, and the value of ssthresh is set to half the value of cwnd when the loss event occurred
+
+![](assets/2018-08-24-20-47-03.png)
+
+TCP congestion control is often referred to as an **additive-increase, multiplicative- decrease (AIMD)** form of congestion control.

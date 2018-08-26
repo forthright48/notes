@@ -76,3 +76,11 @@ How to grep continuous stream of text?
 ```bash
 tail -f file | grep --line-buffered my_pattern
 ```
+
+## Continuous Read
+
+```bash
+tail -f file
+tail -F file
+less +F file
+```
