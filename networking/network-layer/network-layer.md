@@ -13,9 +13,9 @@ Routing involves all of a network's routers, whose collective interactions via r
 - Every router has a **forwarding table**.
 - A router forwards a packet by examin- ing the value of a field in the arriving packet’s header, and then using this header value to index into the router’s forwarding table.
 - > How the forwarding tables in the routers are con- figured?
-    - The routing algorithm determines the values that are inserted into the routers’ forwarding tables.
-    - The routing algorithm may be centralized (e.g., with an algorithm executing on a central site and downloading routing information to each of the routers) or decentralized (i.e., with a piece of the distributed routing algorithm running in each router).
-    - A router receives routing protocol messages, which are used to configure its forward- ing table.
+  - The routing algorithm determines the values that are inserted into the routers’ forwarding tables.
+  - The routing algorithm may be centralized (e.g., with an algorithm executing on a central site and downloading routing information to each of the routers) or decentralized (i.e., with apiece of the distributed routing algorithm running in each router).
+  - A router receives routing protocol messages, which are used to configure its forward- ing table.
 
 ![](assets/2018-08-25-00-56-35.png)
 
@@ -97,7 +97,7 @@ The input port steps of looking up an IP address (“match”) then sending the 
 The Internet’s network layer has three major components:
 
 - The first component is the IP protocol
-- The second major component is the rout- ing component, which determines the path a datagram follows from source to des- tination
+- The second major component is the routing component, which determines the path a datagram follows from source to destination
 - The final component of the network layer is a facility to report errors in datagrams and respond to requests for certain network-layer information.
 
 ![](assets/2018-08-26-11-26-38.png)
@@ -130,3 +130,88 @@ A network-layer packet is referred to as a datagram.
 
 The solution is to fragment the data in the IP datagram into two or more smaller IP datagrams, encapsulate each of these smaller IP datagrams in a separate link-layer frame;and send these frames over the outgoing link. Each of these smaller data- grams is referred to as a **fragment**.
 
+- The designers of IPv4 felt that reassembling data- grams in the routers would introduce significant complication into the protocol and put a damper on router performance.
+- Sticking to the prin- ciple of keeping the network core simple, the designers of IPv4 decided to put the job of datagram reassembly in the end systems rather than in network routers.
+- When a destination host receives a series of datagrams from the same source, it needs to determine whether any of these datagrams are fragments of some original, larger datagram.
+- If some datagrams are fragments, it must further determine when it has received the last fragment and how the fragments it has received should be pieced back together to form the original datagram.
+- To allow the destination host to perform these reassembly tasks, the designers of IP (version 4) put identification, flag, and fragmentation offset fields in the IP datagram header.
+- Because IP is an unreliable service, one or more of the fragments may never arrive at the destination. For this reason, in order for the destination host to be absolutely sure it has received the last fragment of the original datagram, the last fragment has a flag bit set to 0, whereas all the other fragments have this flag bit set to 1. Also, in order for the des- tination host to determine whether a fragment is missing (and also to be able to reassemble the fragments in their proper order), the offset field is used to specify where the fragment fits within the original IP datagram.
+
+> Can fragmanted datagrams be fragmanted again? If yes, how? If no, why not?
+
+### Reassembly
+
+The receiver knows that a packet is a fragment if at least one of the following conditions is true:
+
+- The "more fragments" flag is set. (This is true for all fragments except the last.)
+- The "fragment offset" field is nonzero. (This is true for all fragments except the first.)
+
+The receiver identifies matching fragments using the foreign and local address, the protocol ID, and the identification field. The receiver reassembles the data from fragments with the same ID using both the fragment offset and the more fragments flag.
+
+When the receiver has all fragments, they can be correctly ordered by using the offsets, and reassembled to yield the original data segment.
+### Cost of Fragmentation
+
+- First, it complicates routers and end systems, which need to be designed to accommodate datagram fragmentation and reassembly.
+- Second, fragmentation can be used to create lethal DoS attacks, whereby the attacker sends a series of bizarre and unexpected fragments.
+  - A classic example is the Jolt2 attack, where the attacker sends a stream of small fragments to the target host, none of which has an offset of zero. The target can collapse as it attempts to rebuild datagrams out of the degener- ate packets.
+  - Another class of exploits sends overlapping IP fragments, that is, frag- ments whose offset values are set so that the fragments do not align properly. Vulnerable operating systems, not knowing what to do with overlapping fragments, can crash.
+
+## IPv4 Addressing
+
+- > What is a subnet?
+
+### Obtaining a Block of Address
+
+- Obtaining a set of addresses from an addresses
+- > there must also be a way for the ISP itself to get a block of addresses. Is there a global authority that has ultimate responsibility for managing the IP address space and allocating address blocks to ISPs and other organizations?
+  -  Indeed there is! IP addresses are managed under the authority of the Internet Corporation for Assigned Names and Numbers (ICANN)
+
+### Obtaining a Host Address: DHCP
+
+- DHCP server discovery
+  - The first task of a newly arriving host is to find a DHCP server with which to interact.
+  - This is done using a **DHCP discover message**, which a client sends within a UDP packet to port 67.
+  - the DHCP client creates an IP datagram containing its DHCP discover message along with the broadcast destination IP address of 255.255.255.255 and a “this host” source IP address of 0.0.0.0.
+- DHCP server offer(s)
+  - A DHCP server receiving a DHCP discover message responds to the client with a DHCP offer message that is broadcast to all nodes on the subnet, again using the IP broadcast address of 255.255.255.255.
+  - Each server offer message contains the transaction ID of the received discover mes- sage, the proposed IP address for the client, the network mask, and an IP address lease time—the amount of time for which the IP address will be valid.
+- DHCP request: The newly arriving client will choose from among one or more server offers and respond to its selected offer with a DHCP request message, echoing back the configuration parameters.
+- DHCP ACK: The server responds to the DHCP request message with a DHCP ACK message, confirming the requested parameters.
+
+![](assets/2018-08-26-22-04-25.png)
+
+## Network Address Translation (NAT)
+
+![](assets/2018-08-26-22-14-46.png)
+
+Some people object to NAT:
+
+- Port numbers are meant to be used for addressing processes, not for addressing hosts.
+- routers are supposed to process packets only up to layer 3.
+- the NAT protocol violates the so-called end-to-end argument; that is, hosts should be talk- ing directly with each other, without interfering nodes modifying IP addresses and port numbers
+- we should use IPv6 to solve the shortage of IP addresses, rather than recklessly patching up the problem with a stopgap solution like NAT.
+
+## UPnP
+
+- NAT traversal is increasingly provided by Universal Plug and Play (UPnP), which is a protocol that allows a host to discover and configure a nearby NAT
+- UPnP requires that both the host and the NAT be UPnP compatible.
+- With UPnP, an application running in a host can request a NAT mapping between its (private IP address, private port number) and the (public IP address, public port number) for some requested public port number.
+- If the NAT accepts the request and creates the mapping, then nodes from the outside can initiate TCP connections to (public IP address, public port number).
+- Furthermore, UPnP lets the application know the value of (public IP address, public port number), so that the application can advertise it to the outside world.
+
+## Internet Control Message Protocol (ICMP)
+
+- ICMP is used by hosts and routers to communicate net- work-layer information to each other
+  - The most typical use of ICMP is for error reporting.
+  - For example, every device (such as an intermediate router) forwarding an IP datagram first decrements the time to live (TTL) field in the IP header by one. If the resulting TTL is 0, the packet is discarded and an ICMP time exceeded in transit message is sent to the datagram's source address.
+- ICMP is often considered part of IP but architecturally it lies just above IP, as ICMP messages are carried inside IP datagrams.
+
+## Routing Algorithms
+
+- Typically a host is attached directly to one router, the default router for the host (also called the first-hop router for the host).
+- We refer to the default router of the source host as the source router and the default router of the destination host as the destination router.
+  
+Broadly, one way in which we can classify routing algorithms is according to whether they are global or decentralized:
+
+- A **global routing algorithm** computes the least-cost path between a source and destination using complete, global knowledge about the network. Algorithms with global state information are often referred to as link-state (LS) algorithms, since the algorithm must be aware of the cost of each link in the network.
+- In a **decentralized routing algorithm**, the calculation of the least-cost path is carried out in an iterative, distributed manner. No node has complete information about the costs of all network links. Instead, each node begins with only the knowledge of the costs of its own directly attached links. Then, through an itera- tive process of calculation and exchange of information with its neighboring nodes (that is, nodes that are at the other end of links to which it itself is attached), a node gradually calculates the least-cost path to a destination or set of destinations.

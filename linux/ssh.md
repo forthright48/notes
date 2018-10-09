@@ -19,3 +19,15 @@ ssh-keygen -p # Then it wil ask for existing key path, old pass and new pass
 Create a file `~/.ssh/authorized_keys` and add public keys to it, one in each line.
 
 You can create `~/.ssh/config` to create shortcuts like `ssh SHORTCUT-NAME`.
+
+## Config File
+
+Create a file: `~/.ssh/config`
+
+```ssh
+Host example
+    HostName 192.168.0.1
+    port 22
+    User forthright48
+    IdentityFile ~/.ssh/id_rsa
+```
