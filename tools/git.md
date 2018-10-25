@@ -22,12 +22,16 @@ And this is the reason git uses three way merging.
 
 ## Git tag
 
+Create tags locally for easier rollback, e.g, before merging branch with master.
+
 ```bash
-git tag # show tags
-git tag -a v1.4 -m "my version 1.4" # Annotated tags
+git tag                                 # show tags
+git tag -a v1.4 -m "my version 1.4"     # Annotated tags
 git show v1.4
 git push origin v1.4
 git checkout v1.4
+git tag example                         # Lightweight
+git tag -d v1                           # Delete
 ```
 
 ## Squashing multiple commits
@@ -97,4 +101,12 @@ So, for day to day use, I think ~ is sufficient.
 git show HEAD       # Shows details of last commit.
 git show HEAD~      # Shows details of second last commit. Same as HEAD~1.
 git show HEAD~2     # Shows details of third last commit.
+```
+
+## git-diff
+
+```
+git diff                # unstaged
+git diff --staged       # staged
+git diff HEAD           # Both staged and unstaged
 ```

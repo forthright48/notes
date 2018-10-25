@@ -63,7 +63,7 @@ A GUI through browser that allows us to configure our linux systems easily. For 
 
 You can stop/start/restart webmin from `/etc/webmin`
 
-You can view the dashboard from https://ip6-localhost:10000/
+You can view the dashboard from [https://ip6-localhost:10000/](https://ip6-localhost:10000/)
 
 ## Service
 
