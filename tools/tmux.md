@@ -45,10 +45,16 @@ prefix + space      # Changes to next layout
 exit
 ```
 
-
 # Tmuxinator
 
 A script manager for handling tmux sessions.
+
+# Navigation
+
+```
+prefix + [          # Enter Navigation mode
+q                   # Exit to normal mode
+```
 
 # Resources
 

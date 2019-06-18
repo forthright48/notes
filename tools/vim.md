@@ -47,3 +47,13 @@ Now remember that Vim is a modal editor. It has a **normal** mode, **visual** mo
 - For each of these sets of mappings, there is a mapping that works in normal, visual, select and operator modes (:map and :noremap)
 - one that works in normal mode (:nmap and :nnoremap)
 - one in visual mode (:vmap and :vnoremap) and so on.
+
+# Plugin
+
+## NerdTree
+
+- Change window back to nerdTree: <Ctrl-W> w
+- Toggle NerdTree: <leader> nn
+- [Create folder/file in nerdTree](https://sookocheff.com/post/vim/creating-a-new-file-or-directoryin-vim-using-nerdtree): go to the folder and press "m" to bring out the menu.
+- Toggle buffer using: <leader> + o
+

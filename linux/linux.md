@@ -1,4 +1,11 @@
-# Bash
+## Ack
+
+```
+sudo apt install ack
+ack <string> [directory] # looks for the string in every file and lists them
+```
+
+## Bash
 
 - [Double Quotes vs Single Quotes](https://stackoverflow.com/questions/6697753/difference-between-single-and-double-quotes-in-bash): Single quotes do not interpolate special characters. You can't use single quote inside single quote.
 
