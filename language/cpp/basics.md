@@ -12,5 +12,38 @@
 
 # User Defined Types
 
-- enum and enum class are different. Always use enum class. They are strongly typed enums, local scoped, do not convert to integer and does not operate between different enum classes. More safe.
+- prefer enum class over plain enum. enum and enum class are different. Enum class is strongly typed enums, local scoped, do not convert to integer and does not operate between different enum classes. More safe.
+- define constructors to gurantee and simplify initialization of class
+- avoid naked union. wrap them in a class together with a type field.
 
+# Modularity
+
+- .h files are like interfaces
+- if a function doesn't throw any exception, use "noexcept" tag to indicate that. If the function still throws an exception, the program gets terminated.
+- use static_assert for compilation asserts
+
+# Classes
+
+- Use static_cast instead of normal cast. Safer and better.
+    - Easy to spot in code. Easy to search for.
+- Concrete classes are like built in types. We define them directly.
+- Classes in Class Hierarchy are different. We define them with new and use pointers to access them.
+    - Why? Because we might have a function that returns abstract class shape. The function can return any of its derived class among Triangle, Square and Circle.
+
+## Dynamic Cast for Hierarchy Navigation: is instance of
+
+```
+if (Derived* p = dynamic_cast<Derived*> (base)) {
+    // This is the derived class
+}
+```
+
+If the base class is not an instance of derived class, dynamic_cast returns nullptr.
+
+## Use smart pointers: unique_ptr vs raw
+
+```
+unique_ptr<base> x = new Derived();
+```
+
+Using unique_ptr behaves like java. When there is no unique_ptr left pointing to an instance, that instance is freed.
